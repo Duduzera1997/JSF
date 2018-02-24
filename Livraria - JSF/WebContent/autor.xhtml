@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Novo Autor</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<h:messages />
+			<fieldset>
+				<legend>Dados do Autor</legend>
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Nome:" for="nome" />
+					<h:inputText id="nome" value="#{autorBean.autor.nome}"
+						required="true" requiredMessage="Autor Obrigatório"
+						validatorMessage="O Campo de Nome do Autor não pode conter mais de 40 caracteres!">
+						<f:validateLength maximum="40" />
+					</h:inputText>
+					<h:commandButton value="Gravar" action="#{autorBean.gravar()}" />
+				</h:panelGrid>
+			</fieldset>
+			</h:form>
+			<h:form>
+			<fieldset>
+				<legend>Pesquisar Autores</legend>
+				<h:dataTable value="#{autorBean.getAutoresJPQL()}" var="autor">
+					<h:column>
+						<f:facet name="header"> Nome do Autor: </f:facet>
+						<h:outputText value="#{autor.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header"> Alterar </f:facet>
+						<h:commandLink action="#{autorBean.prepararAlteracao(autor)}" value="Alterar"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header"> Excluir </f:facet>
+						<h:commandLink action="#{autorBean.excluir(autor)}" value="Excluir" immediate="true"/>
+					</h:column>
+				</h:dataTable>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

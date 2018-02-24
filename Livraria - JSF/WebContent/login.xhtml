@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Acesso ao Sistema</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<h:messages />
+			<fieldset>
+				<legend>Acesso ao Sistema</legend>
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Email: " for="email"/>
+					<h:inputText id="email" value="#{usuarioBean.usuario.email}"  required="true" requiredMessage="" validatorMessage=""/>
+					<h:outputLabel value="Senha:  " for="senha"/>
+					<h:inputSecret id="nome" value="#{usuarioBean.usuario.senha}"
+						required="true" requiredMessage="Senha Obrigatória"
+						validatorMessage="O Campo de Senha não pode conter mais de 40 caracteres!">
+						<f:validateLength maximum="40" />
+					</h:inputSecret>
+					<h:commandButton value="Logar" action="#{usuarioBean.logar()}" />
+				</h:panelGrid>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
