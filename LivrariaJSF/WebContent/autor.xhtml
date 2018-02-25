@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Novo Autor</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:messages globalOnly="true"/>
+			<p:fieldset>
+				<legend>Dados do Autor</legend>
+				<h:panelGrid columns="3">
+					<p:outputLabel value="Nome:" for="nome" />
+					<p:inputText id="nome" value="#{autorBean.autor.nome}"
+						required="true" requiredMessage="Campo Obrigatório">
+						<f:validateLength maximum="40" />
+						<f:passThroughAttribute name="placeholder" value="Nome do Autor"/>
+						<f:ajax event="blur" render="messageNome"/>
+					</p:inputText>
+					<p:message for="nome" id="messageNome"/>
+					<p:outputLabel value="E-mail: " for="email" />
+					<p:inputText id="email" value="#{autorBean.autor.email}"
+						required="true" requiredMessage="Campo Obrigatório">
+						<f:validateLength maximum="40" />
+						<f:passThroughAttribute name="placeholder" value="Nome do Autor"/>
+						<f:ajax event="blur" render="messageNome"/>
+					</p:inputText>
+					<p:message for="email" id="messageEmail"/>
+					<h:commandButton value="Gravar" action="#{autorBean.gravar()}" />
+				</h:panelGrid>
+			</p:fieldset>
+			</h:form>
+			<h:form>
+			<p:fieldset>
+				<legend>Pesquisar Autores</legend>
+				<h:dataTable value="#{autorBean.getAutoresJPQL()}" var="autor">
+					<h:column>
+						<f:facet name="header"> Nome do Autor: </f:facet>
+						<h:outputText value="#{autor.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header"> Alterar </f:facet>
+						<h:commandLink action="#{autorBean.prepararAlteracao(autor)}" value="Alterar"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header"> Excluir </f:facet>
+						<h:commandLink action="#{autorBean.excluir(autor)}" value="Excluir" immediate="true"/>
+					</h:column>
+				</h:dataTable>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

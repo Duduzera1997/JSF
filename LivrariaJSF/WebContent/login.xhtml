@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">Acesso ao Sistema</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:messages globalOnly="true" />
+			<fieldset>
+				<legend>Acesso ao Sistema</legend>
+				<h:panelGrid columns="3">
+					<p:outputLabel value="Email: " for="email" />
+					<p:inputText id="email" value="#{usuarioBean.usuario.email}"
+						required="true">
+						<f:attribute name="type" value="email" />
+						<f:passThroughAttribute name="placeholder"
+							value="Entre com E-mail" />
+						<f:validateRegex pattern=".+@.+" />
+						<f:ajax event="blur" render="messageEmail" />
+					</p:inputText>
+					<p:message for="email" id="messageEmail"/>
+					<p:outputLabel value="Senha: " for="senha" />
+					<p:password id="senha" value="#{usuarioBean.usuario.senha}"
+						required="true" match="senha" label="senha"
+						validatorMessage="Senha Inválida!">
+						<f:ajax event="blur" render="messageSenha"/>
+					</p:password>
+					<p:message for="senha" id="messageSenha"/>
+					<p:commandButton value="Logar" action="#{usuarioBean.logar()}" update="@form" process="@form"/>
+				</h:panelGrid>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
