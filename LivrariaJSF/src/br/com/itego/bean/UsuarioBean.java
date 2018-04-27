@@ -29,12 +29,12 @@ public class UsuarioBean {
 		}
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		context.addMessage(null, new FacesMessage("Usuário ou senha Incorretos!"));
-		return "livro?faces-redirect=true";
+		return "login?faces-redirect=true";
 	}
 	
 	public String efetuarLogout() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().getSessionMap().remove("usuarioLogado");
-		return "livro?faces-redirect=true";
+		return "login?faces-redirect=true";
 	}
 }

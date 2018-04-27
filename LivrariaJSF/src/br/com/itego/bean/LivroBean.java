@@ -21,6 +21,7 @@ public class LivroBean {
 	
 	private Livro livro = new Livro();
 	private Integer autorId;
+	private List<Livro> livros;
 	
 	public Integer getAutorId() {
 		return autorId;
@@ -30,23 +31,38 @@ public class LivroBean {
 		this.autorId = autorId;
 	}
 	
+	public Livro getLivro() {
+		return livro;
+	}
+	public List<Livro> getLivros() {
+		return livros;
+	}
+
+	public void setLivros(List<Livro> livros) {
+		this.livros = livros;
+	}
+
+	public void setLivro(Livro livro) {
+		this.livro = livro;
+	}
+	
 	public void gravar() {
 		if(livro.getAutores().isEmpty()) {
-			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("É Necessário que o Livro tenha um Autor!"));
+			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("ï¿½ Necessï¿½rio que o Livro tenha um Autor!"));
 			return;
 		}
+		LivroDAO dao = new LivroDAO();
 		if (this.getLivro().getId() == null) {
 			new LivroDAO().gravar(this.getLivro());
 		} else {
 			new LivroDAO().atualizar(this.getLivro());
 		}
-		
-		throw new ValidatorException(new FacesMessage("Livro Alterado com sucesso!7"));
+		this.livros = dao.getLivrosJPQL();
+		this.livro = new Livro();
 	}
 
-	public Livro getLivro() {
-		return livro;
-	}
+	
+
 	public void addAutor() {
 		Autor autor = new DAO<Autor>(Autor.class).buscarPorId(this.autorId);
 		this.livro.adicionarAutor(autor);
@@ -67,12 +83,15 @@ public class LivroBean {
 	public void formatarISBN(FacesContext fc, UIComponent component, Object value) {
 		String valor = value.toString();
 		if (!valor.startsWith("1")) {
-			throw new ValidatorException(new FacesMessage("ISBN Inválido! Deve-se começar com o Número 1!"));
+			throw new ValidatorException(new FacesMessage("ISBN InvÃ¡lido! Deve-se comeÃ§ar com o NÃºmero 1!"));
 		}
 	}
 	
-	public List<Livro> getLivroJPQL() {
-		return new LivroDAO().getLivrosJPQL();
+	public List<Livro> getLivrosJPQL() {
+		if (this.livros == null) {
+			this.livros = new LivroDAO().getLivrosJPQL();
+		}
+		return livros;
 	} 
 	
 	public String formAutor() {
@@ -80,7 +99,9 @@ public class LivroBean {
 	}
 	
 	public void excluir(Livro livro) {
-		new LivroDAO().excluir(livro);
+		LivroDAO dao = new LivroDAO();
+		dao.excluir(livro);
+		this.livros = dao.getLivrosJPQL();
 	}
 	
 	public void removerAutor(Autor autor) {

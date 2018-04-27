@@ -22,14 +22,20 @@ public class AutorDAO {
 	}
 	
 	public void atualizar(Autor autor) {
-		new DAO<Autor>(Autor.class).atualiza(autor);
+		EntityManager em = new JPAUtil().getEntityManager();
+		em.getTransaction().begin();
+		Autor a = em.find(Autor.class, autor.getId());
+		a = autor;
+		em.merge(a);
+		em.getTransaction().commit();
+		em.close();
 	}
 	
 	public void gravar(Autor autor) {
 		new DAO<Autor>(Autor.class).gravar(autor);
 	}
 	
-	public List<Object[]> getAutoresDoLivroJPQL() {  //Questão 2;
+	public List<Object[]> getAutoresDoLivroJPQL() {  //Questï¿½o 2;
 		EntityManager em = new JPAUtil().getEntityManager();
 		
 		String jpql = "select a.nome, count(*) from Livro l left join l.autores a group by a.nome";
@@ -41,7 +47,7 @@ public class AutorDAO {
 		return rst;
 	}
 	
-	public List<Livro> getAutoresTitulosJPQL() { // Questão 3;
+	public List<Livro> getAutoresTitulosJPQL() { // Questï¿½o 3;
 		EntityManager em = new JPAUtil().getEntityManager();
 		
 		String jpql = "SELECT l from Livro l inner join l.autores a ";
@@ -53,7 +59,7 @@ public class AutorDAO {
 		return livros;
 	}
 	
-	public List<Autor> listarAutoresJPQL() { // Questão 4;
+	public List<Autor> listarAutoresJPQL() { // Questï¿½o 4;
 		EntityManager em = new JPAUtil().getEntityManager();
 		String jpql = "select a from Autor a order by a.nome";
 		Query query = em.createQuery(jpql);
@@ -67,5 +73,9 @@ public class AutorDAO {
 		Query query = em.createQuery(jpql);
 		//em.close();
 		return query.getResultList();
+	}
+	
+	public Autor buscarPorId(Integer autorId) {
+		return new DAO<Autor>(Autor.class).buscarPorId(autorId);
 	}
 }

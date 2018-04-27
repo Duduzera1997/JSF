@@ -12,6 +12,7 @@
 		<class>br.com.itego.modelo.Autor</class>
 		<class>br.com.itego.modelo.Produto</class>
 		<class>br.com.itego.modelo.Usuario</class>
+		<class>br.com.itego.modelo.teste</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
